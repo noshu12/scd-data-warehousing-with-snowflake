@@ -1,0 +1,15 @@
+chmod 400 "kp-scd-warehousing-qh.pem"
+
+ssh -i "kp-data-warehousing.pem" ec2-user@ec2-98-84-17-136.compute-1.amazonaws.com
+
+ssh -i "kp-scd-warehousing.pem" ec2-user@ec2-98-84-17-136.compute-1 -L 2081:localhost:2041 -L 4888:localhost:4888 -L 2080:localhost:2080 -L 8050:localhost:8050 -L 4141:localhost:4141
+
+scp -r -i "kp-scd-warehousing.pem" docker_exp ec2-user@ec2-98-84-17-136.compute-1:/home/ec2-user/docker_exp
+
+
+zookeeper:  # the configuration manager
+    hostname: ZOOKEEPER
+    container_name: zookeeper
+    image: zookeeper:3.8.6-jre-17
+    ports:
+      - 2181:2181
